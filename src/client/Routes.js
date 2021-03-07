@@ -1,15 +1,16 @@
-import React from 'react';
-import Home from './components/Home';
-import UsersList from './components/UsersList';
+/** Pages */
+import HomePage from './pages/HomePage';
+import UsersListPage from './pages/UsersListPage';
 
+/** Routes map of app */
 export default [
   {
+    ...HomePage,
     path: '/',
-    component: Home,
     exact: true,
   },
   {
+    ...UsersListPage,
     path: '/users',
-    component: UsersList,
   },
 ];

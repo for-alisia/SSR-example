@@ -1,12 +1,10 @@
+/** Dependencies */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+/** Redux */
 import { fetchUsers } from '../actions';
 
-class UsersList extends Component {
-  componentDidMount() {
-    this.props.fetchUsers();
-  }
-
+class UsersListPage extends Component {
   render() {
     return (
       <div>
@@ -21,4 +19,10 @@ class UsersList extends Component {
 
 const mapStateToProps = ({ users }) => ({ users });
 
-export default connect(mapStateToProps, { fetchUsers })(UsersList);
+/** Server function (executes before sending the response) */
+function loadData(store) {
+  return store.dispatch(fetchUsers());
+}
+
+/** Export an object {component:..., loadData: function()...} */
+export default { component: connect(mapStateToProps)(UsersListPage), loadData };

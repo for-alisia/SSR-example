@@ -1,6 +1,7 @@
+/** Dependencies */
 import React from 'react';
 
-const Home = () => {
+const HomePage = () => {
   return (
     <div>
       <div>I'm the Home Component!</div>
@@ -9,4 +10,5 @@ const Home = () => {
   );
 };
 
-export default Home;
+/** Export object { component: ..., loadData (if exists)} */
+export default { component: HomePage };

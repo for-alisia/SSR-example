@@ -1,3 +1,4 @@
+// This file uses by webpack to create client's bundle
 /** Dependencies */
 import 'babel-polyfill';
 import React from 'react';
@@ -14,7 +15,8 @@ import Routes from './Routes';
 /** Reducer */
 import reducers from './reducers';
 
-const store = createStore(reducers, {}, applyMiddleware(thunk));
+// @ts-ignore
+const store = createStore(reducers, window.INITIAL_STATE, applyMiddleware(thunk));
 
 ReactDOM.hydrate(
   <Provider

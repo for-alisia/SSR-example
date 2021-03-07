@@ -1,3 +1,5 @@
+/** Server code */
+/** Dependencies */
 import 'babel-polyfill';
 import express from 'express';
 import renderer from './helpers/renderer';
@@ -11,10 +13,15 @@ app.use(express.static('public'));
 
 app.get('*', (req, res) => {
   const store = createStore();
-
-  console.log(matchRoutes(Routes, req.path));
-
-  res.send(renderer(req, store));
+  // Get promises from Routes
+  const promises = matchRoutes(Routes, req.path).map(({ route }) => {
+    // @ts-ignore
+    return route.loadData ? route.loadData(store) : null;
+  });
+  // After fetching data send a response
+  Promise.all(promises).then(() => {
+    res.send(renderer(req, store));
+  });
 });
 
 app.listen(3000, () => {
