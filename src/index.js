@@ -27,14 +27,26 @@ app.get('*', (req, res) => {
   const store = createStore(req);
   // Get promises from Routes
   // @ts-ignore
-  const promises = matchRoutes(Routes, req.path).map(({ route }) => {
-    // @ts-ignore
-    return route.loadData ? route.loadData(store) : null;
-  });
+  const promises = matchRoutes(Routes, req.path)
+    .map(({ route }) => {
+      // @ts-ignore
+      return route.loadData ? route.loadData(store) : null;
+    })
+    .map((promise) => {
+      if (promise) {
+        return new Promise((resolve, reject) => {
+          promise.then(resolve).catch(resolve);
+        });
+      }
+    });
+
   // After fetching data send a response
   Promise.all(promises).then(() => {
     const context = {};
     const renderedContent = renderer(req, store, context);
+    if (context.url) {
+      return res.redirect(303, context.url);
+    }
     if (context.notFound) {
       res.status(404);
     }
