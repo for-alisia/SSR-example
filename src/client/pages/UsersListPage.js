@@ -5,12 +5,26 @@ import { connect } from 'react-redux';
 import { fetchUsers } from '../actions';
 
 class UsersListPage extends Component {
+  componentDidMount() {
+    this.props.fetchUsers();
+  }
   render() {
     return (
-      <div>
+      <div className="container">
         <h1>Users</h1>
         <ul>
-          {this.props.users && this.props.users.map((user) => <li key={user.id}>{user.name}</li>)}
+          {this.props.users &&
+            this.props.users.map(({ name, id }) => (
+              <li key={id}>
+                <div className="row">
+                  <div className="col s12 m5">
+                    <div className="card-panel teal">
+                      <span className="white-text">USER: {name}</span>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            ))}
         </ul>
       </div>
     );
@@ -25,4 +39,4 @@ function loadData(store) {
 }
 
 /** Export an object {component:..., loadData: function()...} */
-export default { component: connect(mapStateToProps)(UsersListPage), loadData };
+export default { component: connect(mapStateToProps, { fetchUsers })(UsersListPage), loadData };

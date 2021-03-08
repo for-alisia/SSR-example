@@ -1,4 +1,4 @@
-### SErver Side Rendering with React and Redux
+### Server Side Rendering with React and Redux
 
 #### No Additional Frameworks, like NEXT.JS or Gatsby
 

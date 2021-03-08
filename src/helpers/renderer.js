@@ -8,19 +8,26 @@ import serialize from 'serialize-javascript';
 /** Routes map */
 import Routes from '../client/Routes';
 
-export default (req, store) => {
+export default (req, store, context) => {
   // Render app to a string
   const content = renderToString(
     <Provider store={store}>
-      <StaticRouter location={req.path} context={{}}>
-        <div>{renderRoutes(Routes)}</div>
+      <StaticRouter location={req.path} context={context}>
+        <div>
+          {renderRoutes(
+            // @ts-ignore
+            Routes
+          )}
+        </div>
       </StaticRouter>
     </Provider>
   );
   // Paste app-string to a simple web-page
   const html = `
     <html>
-      <head></head>
+      <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+      </head>
       <body>
         <div id="root">${content}</div>
         <script>
