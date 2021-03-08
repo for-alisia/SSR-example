@@ -5,6 +5,7 @@ import { StaticRouter } from 'react-router-dom'; // router for server rendering
 import { Provider } from 'react-redux';
 import { renderRoutes } from 'react-router-config';
 import serialize from 'serialize-javascript';
+import { Helmet } from 'react-helmet';
 /** Routes map */
 import Routes from '../client/Routes';
 
@@ -22,10 +23,15 @@ export default (req, store, context) => {
       </StaticRouter>
     </Provider>
   );
+
+  const helmet = Helmet.renderStatic();
+
   // Paste app-string to a simple web-page
   const html = `
     <html>
       <head>
+        ${helmet.title.toString()}
+        ${helmet.meta.toString()}
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
       </head>
       <body>

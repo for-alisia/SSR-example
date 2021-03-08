@@ -1,6 +1,7 @@
 /** Dependencies */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Helmet } from 'react-helmet';
 /** Redux */
 import { fetchUsers } from '../actions';
 
@@ -8,9 +9,19 @@ class UsersListPage extends Component {
   componentDidMount() {
     this.props.fetchUsers();
   }
+
+  head() {
+    return (
+      <Helmet>
+        <title>{`${this.props.users.length} users were loaded`}</title>
+        <meta property="og:title" content="Users App" />
+      </Helmet>
+    );
+  }
   render() {
     return (
       <div className="container">
+        {this.head()}
         <h1>Users</h1>
         <ul>
           {this.props.users &&
